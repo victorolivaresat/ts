@@ -3,6 +3,7 @@ const routes = require('./routes/routes');
 const { connect } = require('./config/database');
 
 const app = express();
+app.use(express.json());
 
 app.use(routes);
 

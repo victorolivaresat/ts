@@ -1,5 +1,5 @@
 <template>
-  <header class="flex items-center justify-between px-6 py-4 bg-gray-50 border-b-4 border-red-800">
+  <header class="flex items-center justify-between px-6 py-4 bg-gray-50">
     <div class="flex items-center">
       <button class="text-gray-500 focus:outline-none lg:hidden" @click="isOpen = true">
         </button>
