@@ -48,21 +48,10 @@
     </div>
 </template>
 
-<script>
-import { ref } from 'vue'
-import { useSidebar } from '../../composables/useSidebar.js'
+<script setup>
+import { useSidebar } from '../../composables/useSidebar.js';
 
-export default {
-    setup() {
-        const { isOpen } = useSidebar();
-        const activeClass = 'bg-gray-600 bg-opacity-25 text-gray-100 border-red-500';
-        const inactiveClass = 'border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100';
-
-        return {
-            isOpen,
-            activeClass,
-            inactiveClass,
-        };
-    },
-};
+const { isOpen } = useSidebar();
+const activeClass = 'bg-gray-600 bg-opacity-25 text-gray-100 border-red-500';
+const inactiveClass = 'border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100';
 </script>

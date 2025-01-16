@@ -1,5 +1,5 @@
 const { createToken } = require("../utils/jwt");
-const config = require("../../../config");
+const config = require("../../../config.json");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -22,7 +22,7 @@ const login = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: config.NODE_ENV === "production",
       sameSite: "strict",
     });
 
@@ -30,9 +30,9 @@ const login = async (req, res) => {
       message: "Logged in successfully",
       id: user.id,
       email: user.email,
-      username: user.username,
-      profileImage: user.profileImage,
-      isActive: user.isActive,
+      name: `${user.first_name} ${user.last_name}`,	
+      status: user.status,
+      photo_path: user.photo_path,
       token,
     });
   } catch (error) {
@@ -87,11 +87,13 @@ const verifyToken = (req, res) => {
     }
 
     return res.status(200).json({
-      userId: user.id,
+      message: "Token verified",
+      id: user.id,
       email: user.email,
-      name: `${user.firstName} ${user.lastName}`,
+      name: `${user.first_name} ${user.last_name}`,
       status: user.status,
-      success: true,
+      photo_path: user.photo_path,
+      token,
     });
   });
 };

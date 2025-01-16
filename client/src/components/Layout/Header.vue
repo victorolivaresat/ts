@@ -2,31 +2,28 @@
   <header class="flex items-center justify-between px-6 py-4 bg-gray-50">
     <div class="flex items-center">
       <button class="text-gray-500 focus:outline-none lg:hidden" @click="isOpen = true">
-        </button>
+        <BxMenuAltRight class="w-8 h-8"/>
+      </button>
     </div>
 
     <div class="flex items-center">
       <div class="relative">
-        <button class="relative z-10 block w-8 h-8 overflow-hidden rounded-full shadow focus:outline-none" @click="dropdownOpen = !dropdownOpen">
+        <button class="relative z-10 block w-8 h-8 overflow-hidden rounded-full shadow focus:outline-none"
+          @click="dropdownOpen = !dropdownOpen">
           <img class="object-cover w-full h-full" src="https://picsum.photos/200" alt="Your avatar">
         </button>
 
-        <div v-if="dropdownOpen" class="fixed inset-0 z-10 w-full h-full" @click="dropdownOpen = false" /> 
+        <div v-if="dropdownOpen" class="fixed inset-0 z-10 w-full h-full" @click="dropdownOpen = false" />
 
-        <transition 
-          enter-active-class="transition duration-150 ease-out transform"
-          enter-from-class="scale-95 opacity-0" 
-          enter-to-class="scale-100 opacity-100"
-          leave-active-class="transition duration-150 ease-in transform" 
-          leave-from-class="scale-100 opacity-100"
-          leave-to-class="scale-95 opacity-0"
-        >
+        <transition enter-active-class="transition duration-150 ease-out transform"
+          enter-from-class="scale-95 opacity-0" enter-to-class="scale-100 opacity-100"
+          leave-active-class="transition duration-150 ease-in transform" leave-from-class="scale-100 opacity-100"
+          leave-to-class="scale-95 opacity-0">
           <div v-if="dropdownOpen" class="absolute right-0 z-20 w-48 py-2 mt-2 bg-white rounded-md shadow-xl">
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Profile</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Products</a>
-            <router-link to="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">
-              Log out
-            </router-link>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-800 hover:text-white">Profile</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-800 hover:text-white">Products</a>
+            <button @click="handleLogout"
+              class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-indigo-800 hover:text-white">Logout</button>
           </div>
         </transition>
       </div>
@@ -34,16 +31,26 @@
   </header>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
 import { useSidebar } from '../../composables/useSidebar.js';
+import { BxMenuAltRight } from '@kalimahapps/vue-icons';
+import { useAuth } from "../../composables/useAuth";
+import { useRouter } from "vue-router";
 
-export default {
-  setup() {
-    const dropdownOpen = ref(false);
-    const { isOpen } = useSidebar();
+const dropdownOpen = ref(false);
+const { isOpen } = useSidebar();
+const { logout } = useAuth();
+const router = useRouter();
 
-    return { dropdownOpen, isOpen }; 
+const handleLogout = async () => {
+  try {
+    await logout();
+    router.push("/login");
+    console.log("Logout ok");
+  } catch (error) {
+    console.error("Error al cerrar sesión:", error);
   }
 };
+
 </script>
