@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import {
   verifyToken as apiVerifyToken,
   login as apiLogin,
@@ -7,7 +8,6 @@ import {
 const login = async (email, password) => {
   try {
     const data = await apiLogin(email, password);
-    localStorage.setItem("token", data.token);
     localStorage.setItem("user", JSON.stringify(data));
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
@@ -18,7 +18,7 @@ const login = async (email, password) => {
 const logout = async () => {
   try {
     await apiLogout();
-    localStorage.removeItem("token");
+    Cookies.remove("token");
     localStorage.removeItem("user");
   } catch (error) {
     console.error("Error al cerrar sesión:", error);
@@ -26,25 +26,26 @@ const logout = async () => {
 };
 
 const verifyToken = async () => {
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("token");
   if (token) {
     try {
       const data = await apiVerifyToken();
-      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("user", JSON.stringify(data));
     } catch (error) {
       console.error("Token no válido o sesión caducada:", error);
-      localStorage.removeItem("token");
+      Cookies.remove("token");
       localStorage.removeItem("user");
     }
   }
 };
 
 const getUser = () => {
-  return JSON.parse(localStorage.getItem("user"));
+  const user = localStorage.getItem("user");
+  return user ? JSON.parse(user) : null;
 };
 
 const getToken = () => {
-  return localStorage.getItem("token");
+  return Cookies.get("token");
 };
 
 export const useAuth = () => {

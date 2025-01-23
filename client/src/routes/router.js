@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useAuth } from "../composables/useAuth";
+import Cookies from "js-cookie";
 
 // Components
 import Reconciliations from "../components/Pages/Reconciliations/Index.vue";
@@ -72,7 +72,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("token");
   if (to.meta.requiresAuth && !token) {
     next({ name: "Login", query: { redirect: to.fullPath } });
   } else if (to.name === "Login" && token) {

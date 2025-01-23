@@ -22,8 +22,7 @@
           <div v-if="dropdownOpen" class="absolute right-0 z-20 w-48 py-2 mt-2 bg-white rounded-md shadow-xl">
             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-800 hover:text-white">Profile</a>
             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-800 hover:text-white">Products</a>
-            <button @click="handleLogout"
-              class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-indigo-800 hover:text-white">Logout</button>
+            <a href="#" @click="handleLogout" class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-indigo-800 hover:text-white">Logout</a>
           </div>
         </transition>
       </div>
@@ -43,7 +42,10 @@ const { isOpen } = useSidebar();
 const { logout } = useAuth();
 const router = useRouter();
 
-const handleLogout = async () => {
+const handleLogout = async (event) => {
+
+  event.preventDefault();
+  
   try {
     await logout();
     router.push("/login");

@@ -19,3 +19,19 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #718096;
 }
+
+.rotated-90 {
+    transform: rotate(-90deg);
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .ml-2 {
+    margin-left: 0.5rem; 
+  }
+  
+  .vtl-tbody-td.hover {
+    background-color: #e5e7eb;
+  }

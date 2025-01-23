@@ -20,17 +20,12 @@ const login = async (req, res) => {
 
     const token = await createToken({ userId: user.id });
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: config.NODE_ENV === "production",
-      sameSite: "strict",
-    });
+    res.cookie("token", token);
 
     return res.status(200).json({
-      message: "Logged in successfully",
       id: user.id,
       email: user.email,
-      name: `${user.first_name} ${user.last_name}`,	
+      name: `${user.first_name} ${user.last_name}`,
       status: user.status,
       photo_path: user.photo_path,
       token,
@@ -87,7 +82,6 @@ const verifyToken = (req, res) => {
     }
 
     return res.status(200).json({
-      message: "Token verified",
       id: user.id,
       email: user.email,
       name: `${user.first_name} ${user.last_name}`,

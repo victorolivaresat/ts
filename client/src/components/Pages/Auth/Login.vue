@@ -27,14 +27,11 @@
                 <span class="mx-2 text-sm text-gray-600">Remember me</span>
               </label>
             </div>
-            <div>
-              <a class="block text-sm text-indigo-700 fontme hover:underline" href="#">Forgot your password?</a>
-            </div>
           </div>
         </div>
-        <div class="flex px-10 py-4 bg-gray-100 border-t border-gray-100">
+        <div class="flex px-10 py-4 bg-gray-100 border-t border-gray-100 justify-end">
             <button type="submit"
-              class="w-full px-4 py-2 text-sm text-center text-white bg-indigo-600 rounded-md focus:outline-none hover:bg-indigo-500">
+              class="w-1/2 px-4 py-2 text-sm text-center text-white bg-indigo-600 rounded-md focus:outline-none hover:bg-indigo-500">
               Login
             </button>
         </div>

@@ -10,10 +10,11 @@ export const updateUser = async (id, userData) => {
   return data;
 };
 
-export const getAllUsers = async () => {
-  const { data } = await axios.get('/users');
+export const getAllUsers = async (params) => {
+  const { data } = await axios.get('/users', { params });
   return data;
 };
+
 
 export const getUser = async (id) => {
   const { data } = await axios.get(`/users/${id}`);
