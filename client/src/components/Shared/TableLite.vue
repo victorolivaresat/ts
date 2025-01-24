@@ -924,7 +924,7 @@ export default defineComponent({
     width: 100%;
     margin-bottom: 1.25rem;
     color: #464646;
-    font-size: small;
+    font-size: 0.7rem;
     border-collapse: collapse;
 }
 

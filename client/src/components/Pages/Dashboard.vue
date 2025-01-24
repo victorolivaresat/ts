@@ -2,11 +2,7 @@
     <!-- Información de Resumen -->
     <div class="mt-4">
         <div class="flex flex-wrap -mx-6">
-            <div 
-                v-for="(item, index) in summaryData" 
-                :key="index" 
-                class="w-full px-6 sm:w-1/2 xl:w-1/3"
-            >
+            <div v-for="(item, index) in summaryData" :key="index" class="w-full px-6 sm:w-1/2 xl:w-1/3">
                 <div class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm">
                     <div :class="item.iconBg">
                         <component :is="item.icon" class="text-white text-2xl" />
@@ -30,23 +26,15 @@
 
         <!-- Gráfico BCP -->
         <div v-if="!loading && !error" class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-xl font-bold mb-4 text-orange-500">BCP Daily Amounts</h3>
-            <Chart 
-                v-if="bcpSeries.length" 
-                :series-data="bcpSeries[0]?.data" 
-                :chart-options="bcpChartOptions" 
-            />
+            <h3 class="text-xl font-bold mb-4 text-orange-600">BCP</h3>
+            <Chart v-if="bcpSeries.length" :series-data="bcpSeries[0]?.data" :chart-options="bcpChartOptions" />
             <p v-else class="text-gray-500">No data available for BCP</p>
         </div>
 
         <!-- Gráfico Interbank -->
         <div v-if="!loading && !error" class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-xl font-bold mb-4 text-green-500">Interbank Daily Amounts</h3>
-            <Chart 
-                v-if="ibkSeries.length" 
-                :series-data="ibkSeries[0]?.data" 
-                :chart-options="ibkChartOptions" 
-            />
+            <h3 class="text-xl font-bold mb-4 text-green-600">Interbank</h3>
+            <Chart v-if="ibkSeries.length" :series-data="ibkSeries[0]?.data" :chart-options="ibkChartOptions" />
             <p v-else class="text-gray-500">No data available for Interbank</p>
         </div>
 
@@ -63,6 +51,8 @@ import { BxMoney, BxCreditCard, BxMoneyWithdraw } from '@kalimahapps/vue-icons';
 import { getMonthlyAmountSums, getBcpDailyAmountsForChart, getIbkDailyAmountsForChart } from '../../api/dashboardApi';
 import { formatWithThousandSeparator } from '../../utils/numberFormatter';
 import Chart from '../Shared/Chart.vue';
+import merge from 'lodash/merge';
+
 
 // Variables Reactivas
 const summaryData = ref([]);
@@ -84,19 +74,19 @@ const fetchSummaryData = async () => {
                 label: 'Interbank',
                 amount: monthlyData?.ibkTotalAmount || 0,
                 icon: BxCreditCard,
-                iconBg: 'p-3 bg-green-600 rounded-full',
+                iconBg: 'p-4 bg-green-600 rounded-full',
             },
             {
                 label: 'BCP',
                 amount: monthlyData?.bcpTotalAmount || 0,
                 icon: BxMoney,
-                iconBg: 'p-3 bg-orange-600 rounded-full',
+                iconBg: 'p-4 bg-orange-600 rounded-full',
             },
             {
                 label: 'ApuestaTotal',
                 amount: monthlyData?.atTotalAmount || 0,
                 icon: BxMoneyWithdraw,
-                iconBg: 'p-3 bg-red-600 rounded-full',
+                iconBg: 'p-4 bg-red-600 rounded-full',
             },
         ];
     } catch (err) {
@@ -117,17 +107,22 @@ const fetchChartData = async () => {
             bcpCategories.value = bcpData.categories;
 
             // Configurar opciones del gráfico BCP
-            bcpChartOptions.value = {
+            bcpChartOptions.value = merge({}, bcpChartOptions.value, {
                 xaxis: {
                     categories: bcpData.categories,
-                    labels: {
-                        style: {
-                            fontSize: '10px',
-                        },
-                        rotate: -90,
-                    }
+                    type: 'datetime',
                 },
-            };
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        gradientToColors: ['#ef8d41'],
+                    },
+                },
+                markers: {
+                    colors : ['#002a8d'],
+                },
+                colors : ['#002a8d'],
+            });
         }
 
         if (ibkData?.categories && ibkData?.series) {
@@ -138,7 +133,18 @@ const fetchChartData = async () => {
             ibkChartOptions.value = {
                 xaxis: {
                     categories: ibkData.categories,
+                    type: 'datetime',
                 },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        gradientToColors: ['#22c433'],
+                    },
+                },
+                markers: {
+                    colors : ['#0039a6'],
+                },
+                colors : ['#0039a6'],
             };
         }
     } catch (err) {

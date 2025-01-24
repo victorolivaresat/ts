@@ -5,6 +5,7 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import VueApexCharts from 'vue3-apexcharts';
+import merge from 'lodash/merge';
 
 // Props
 const props = defineProps({
@@ -29,52 +30,67 @@ const apexchart = VueApexCharts;
 const defaultChartOptions = {
     chart: {
         height: 350,
-        type: 'bar',
-        zoom: {
-            enabled: false,
-        },
-    },
-    plotOptions: {
-        bar: {
-            endingShape: 'rounded',
-            borderRadius: 4,
-            distributed: true,
-            dataLabels: {
-                position: 'top',
-            },
-        },
+        type: 'area',
     },
     dataLabels: {
-        formatter: (val) =>
-            'S/ ' +
-            val.toLocaleString('en-US', {
+        formatter: (val) => {
+            if (val >= 1000) {
+                return 'S/ ' + (val / 1000).toFixed(1) + 'k';
+            }
+            return 'S/ ' + val.toLocaleString('en-US', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
-            }),
+            });
+        },
         offsetX: 40,
         style: {
-            fontSize: '8px',
-            colors: ['blue'],
+            fontSize: '9px',
+            colors: ['#767fb4'],
         },
     },
     legend: {
-        show: true,
+        show: false,
     },
-    xaxis: {
-        
+    forecastDataPoints: {
+        count: 7
     },
+    stroke: {
+        width: 5,
+        curve: 'smooth'
+    },
+    markers: {
+        size: 8,
+    },
+    yaxis: {
+        labels: {
+            formatter: function (val) {
+                return (val.toFixed(0));
+            },
+        },
+    },
+    xaxis: {},
     fill: {
-        opacity: 1,
+        type: 'gradient',
+        gradient: {
+            type: 'vertical',
+            opacityFrom: 0.9,
+            opacityTo: 0.9,
+        },
     },
     tooltip: {
         y: {
-            formatter: (val) => 'S/ ' + val.toFixed(2),
+            formatter: (val) => {
+                if (val >= 1000) {
+                    return 'S/ ' + (val / 1000).toFixed(1) + 'k';
+                }
+                return 'S/ ' + val.toFixed(2);
+            },
         },
     },
 };
 
 // Reactive variables
-const chartOptions = ref({ ...defaultChartOptions, ...props.chartOptions });
+const chartOptions = ref(merge({}, defaultChartOptions, props.chartOptions));
 const series = ref([
     {
         name: 'Amount',
@@ -93,7 +109,7 @@ watch(
 watch(
     () => props.chartOptions,
     (newVal) => {
-        chartOptions.value = { ...defaultChartOptions, ...newVal };
+        merge(chartOptions.value, newVal);
     },
     { deep: true }
 );

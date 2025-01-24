@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between items-center mb-4">
     <input v-model="searchTerm" type="text" placeholder="Buscar por e-mail"
-      class="w-1/4 px-3 py-2 border border-gray-300 rounded-md" />
+      class="w-1/4 px-3 py-2 border border-gray-300 rounded-md"  @input="fetchFilteredData"/>
 
     <button class="bg-indigo-600 px-4 py-2 text-white rounded-md hover:bg-indigo-700" @click="openModal('create')">
       <BxPlusCircle class="inline-block"/> Create User
@@ -9,10 +9,18 @@
   </div>
 
 
-  <TableLite :is-slot-mode="true" :isLoading="tableConfig.isLoading" :title="'Users'"
-    :columns="tableConfig.columns" :rows="filterRows" :pageSize="tableConfig.itemsPerPage"
-    :total="tableConfig.totalItems" :page="tableConfig.currentPage" :messages="tableConfig.messages"
-    @do-search="handleSearch">
+  <TableLite 
+    :is-slot-mode="true" 
+    :isLoading="tableConfig.isLoading" 
+    :title="'Users'"
+    :columns="tableConfig.columns" 
+    :rows="filterRows" 
+    :pageSize="tableConfig.itemsPerPage"
+    :total="tableConfig.totalItems" 
+    :page="tableConfig.currentPage" 
+    :messages="tableConfig.messages"
+    @do-search="handleSearch"
+  >
 
     <!-- Slot for status-->
     <template v-slot:status="data">
@@ -91,8 +99,12 @@ const initialColumns = [
 ];
 
 const { tableConfig, fetchTableData } = useTable(getAllUsers, initialColumns);
+
+// Modal
 const isModalVisible = ref(false);
 const modalMode = ref('create');
+
+// Form data
 const currentUserId = ref(null);
 const searchTerm = ref(""); 
 const formData = ref({
@@ -102,6 +114,7 @@ const formData = ref({
   password: '',
 });
 
+// Filter rows
 const filterRows = computed(() => {
   return tableConfig.rows.filter(
     (x) =>
@@ -111,6 +124,22 @@ const filterRows = computed(() => {
   );
 });
 
+// Función para manejar la paginación
+const handleSearch = async (offset, limit, sort, order) => {
+  const page = offset / limit + 1;
+  tableConfig.currentPage = page;
+  tableConfig.itemsPerPage = limit;
+
+  await fetchTableData(page, limit, sort, order);
+};
+
+// Actualización dinámica al buscar
+const fetchFilteredData = async () => {
+  tableConfig.currentPage = 1;
+  await fetchTableData(1, tableConfig.itemsPerPage);
+};
+
+// Modal functions
 const openModal = (mode, id = null) => {
   modalMode.value = mode;
   currentUserId.value = id;
@@ -144,14 +173,6 @@ const handleSubmit = async () => {
   } catch (error) {
     console.error('Error submitting form:', error);
   }
-};
-
-const handleSearch = async (offset, limit, sort, order) => {
-  const page = offset / limit + 1;
-  tableConfig.currentPage = page;
-  tableConfig.itemsPerPage = limit;
-
-  await fetchTableData(page, limit, sort, order);
 };
 
 const handleChangeStatus = async (id, newStatus) => {

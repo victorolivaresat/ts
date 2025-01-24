@@ -20,18 +20,8 @@
     background: #718096;
 }
 
-.rotated-90 {
-    transform: rotate(-90deg);
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
-  .ml-2 {
-    margin-left: 0.5rem; 
-  }
-  
-  .vtl-tbody-td.hover {
-    background-color: #e5e7eb;
-  }
+.active {
+  color: #1d4ed8;
+  background-color: #f3f4f6;
+  border-bottom: 2px solid #1d4ed8;
+}

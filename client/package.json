@@ -17,7 +17,9 @@
     "axios": "^1.7.9",
     "date-fns": "^4.1.0",
     "js-cookie": "^3.0.5",
+    "lodash": "^4.17.21",
     "vue": "^3.5.13",
+    "vue-lodash": "^2.1.2",
     "vue-router": "^4.5.0",
     "vue3-apexcharts": "^1.8.0"
   },
