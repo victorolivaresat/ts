@@ -1,60 +1,75 @@
-const sequelize = require("../../config/database").sequelize;
 const { Sequelize, Model, DataTypes } = require("sequelize");
+const sequelize = require("../../config/database").sequelize;
 
-class User extends Model {}
+class Bcp extends Model {}
 
-User.init(
+Bcp.init(
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true
+      primaryKey: true,
     },
-    first_name: {
+    operation_type: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    last_name: {
+    date_time: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    operation_number: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    email: {
+    ordering_company: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    password: {
+    account_charge: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
+    },
+    beneficiary: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    account_destination: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    amount: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
     },
     status: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true,
-      dataType: 'bit',
     },
-    photo_path: {
+    observations: {
       type: DataTypes.STRING,
       allowNull: true,
     },
     created_at: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: Sequelize.fn('GETDATE') 
+      defaultValue: Sequelize.fn("NOW"),
     },
     updated_at: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: Sequelize.fn('GETDATE') 
+      defaultValue: Sequelize.fn("NOW"),
     },
   },
   {
     sequelize,
+    modelName: "Bcp",
+    tableName: "bcp_notifications",
     timestamps: true,
-    modelName: "User",
-    tableName: "users",
     createdAt: "created_at",
     updatedAt: "updated_at",
   }
 );
 
-module.exports = User;
+module.exports = Bcp;

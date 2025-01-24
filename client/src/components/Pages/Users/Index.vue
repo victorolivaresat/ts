@@ -1,27 +1,30 @@
 <template>
-  <div class="flex justify-end">
-    <button class="mb-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700" @click="openModal('create')">
-      Create User
-    </button>
+  <div class="flex justify-between items-center mb-4">
+    <input v-model="searchTerm" type="text" placeholder="Buscar por e-mail"
+      class="w-1/4 px-3 py-2 border border-gray-300 rounded-md" />
 
+    <button class="bg-indigo-600 px-4 py-2 text-white rounded-md hover:bg-indigo-700" @click="openModal('create')">
+      <BxPlusCircle class="inline-block"/> Create User
+    </button>
   </div>
 
 
-  <TableLite :is-slot-mode="true" :isLoading="tableConfig.isLoading" :isReSearch="false" :hasCheckbox="true"
-    :title="'Users'" :columns="tableConfig.columns" :rows="tableConfig.rows" :pageSize="tableConfig.itemsPerPage"
+  <TableLite :is-slot-mode="true" :isLoading="tableConfig.isLoading" :title="'Users'"
+    :columns="tableConfig.columns" :rows="filterRows" :pageSize="tableConfig.itemsPerPage"
     :total="tableConfig.totalItems" :page="tableConfig.currentPage" :messages="tableConfig.messages"
-    :sortable="{ order: 'id', sort: 'asc' }" @return-checked-rows="handleCheckedRows" @do-search="handleSearch"
-    @row-clicked="handleRowClick">
+    @do-search="handleSearch">
 
+    <!-- Slot for status-->
     <template v-slot:status="data">
       <Switch :value="data.value.status === true" :label="data.value.status ? 'Active' : 'Inactive'"
         @update:value="(newValue) => handleChangeStatus(data.value.id, newValue ? true : false)" />
     </template>
 
+    <!-- Slot for actions-->
     <template v-slot:actions="data">
-      <button class="px-2 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
+      <button class="px-2 py-1"
         @click="openModal('edit', data.value.id)">
-        Edit
+        <BxEdit class="text-lg text-yellow-500"/>
       </button>
     </template>
 
@@ -68,35 +71,44 @@
 </template>
 
 <script setup>
+import { onMounted, computed, ref } from 'vue';
 import { getAllUsers, createUser, updateUser, changeUserStatus } from '../../../api/userApi';
 import { formatDateTime } from '../../../utils/dateFormatter';
+import { BxEdit, BxPlusCircle } from '@kalimahapps/vue-icons';
 import { useTable } from '../../../composables/useTable';
 import TableLite from '../../Shared/TableLite.vue';
 import Switch from '../../Shared/Switch.vue';
 import Modal from '../../Shared/Modal.vue';
-import { onMounted, ref } from 'vue';
-
 
 const initialColumns = [
   { label: "ID", field: "id", sortable: true, width: "5%" },
   { label: "First Name", field: "first_name", sortable: true, width: "15%" },
   { label: "Last Name", field: "last_name", sortable: true, width: "15%" },
   { label: "Email", field: "email", sortable: true, width: "20%" },
-  { label: "Created", field: "created_at", width: "15%", display: (row) => formatDateTime(row.created_at) },
+  { label: "Created", field: "created_at", sortable: true, width: "15%", display: (row) => formatDateTime(row.created_at) },
   { label: "Status", field: "status", width: "15%", columnClasses: ["text-center"], },
   { label: "Actions", field: "actions", width: "15%", columnClasses: ["text-center"], },
 ];
 
 const { tableConfig, fetchTableData } = useTable(getAllUsers, initialColumns);
-
 const isModalVisible = ref(false);
 const modalMode = ref('create');
 const currentUserId = ref(null);
+const searchTerm = ref(""); 
 const formData = ref({
   first_name: '',
   last_name: '',
   email: '',
   password: '',
+});
+
+const filterRows = computed(() => {
+  return tableConfig.rows.filter(
+    (x) =>
+      x.email.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+      x.first_name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+      x.last_name.toLowerCase().includes(searchTerm.value.toLowerCase())
+  );
 });
 
 const openModal = (mode, id = null) => {
@@ -134,18 +146,12 @@ const handleSubmit = async () => {
   }
 };
 
+const handleSearch = async (offset, limit, sort, order) => {
+  const page = offset / limit + 1;
+  tableConfig.currentPage = page;
+  tableConfig.itemsPerPage = limit;
 
-const handleCheckedRows = (checkedRows) => {
-  console.log('Checked Rows:', checkedRows);
-};
-
-const handleSearch = async (offset, limit, order, sort) => {
-  console.log('Search Params:', { offset, limit, order, sort });
-  await fetchTableData(offset / limit + 1, limit, order, sort);
-};
-
-const handleRowClick = (row) => {
-  console.log('Row Clicked:', row);
+  await fetchTableData(page, limit, sort, order);
 };
 
 const handleChangeStatus = async (id, newStatus) => {

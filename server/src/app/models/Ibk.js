@@ -1,38 +1,53 @@
-const sequelize = require("../../config/database").sequelize;
 const { Sequelize, Model, DataTypes } = require("sequelize");
+const sequelize = require("../../config/database").sequelize;
 
-class User extends Model {}
+class Ibk extends Model {}
 
-User.init(
+Ibk.init(
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true
+      primaryKey: true,
     },
-    first_name: {
+    ordering_company: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    last_name: {
+    beneficiary: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    email: {
+    account_charge: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    password: {
+    account_destination: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
+    },
+    payment_status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    number_application: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    amount: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
+    },
+    date_time: {
+      type: DataTypes.DATE,
+      allowNull: false,
     },
     status: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true,
-      dataType: 'bit',
     },
-    photo_path: {
+    observations: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -49,12 +64,12 @@ User.init(
   },
   {
     sequelize,
+    modelName: "Ibk",
+    tableName: "ibk_notifications",
     timestamps: true,
-    modelName: "User",
-    tableName: "users",
     createdAt: "created_at",
     updatedAt: "updated_at",
   }
 );
 
-module.exports = User;
+module.exports = Ibk;

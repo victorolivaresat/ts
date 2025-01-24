@@ -27,12 +27,14 @@ export function useTable(fetchDataFn, initialColumns = []) {
       const response = await fetchDataFn({
         page,
         limit: itemsPerPage,
-        order: sortField,
-        sort: sortOrder,
+        sortBy: sortField,
+        sortOrder,
       });
 
       tableConfig.rows = response.data;
       tableConfig.totalItems = response.totalItems;
+
+      console.log("Table data fetched:", response);
     } catch (error) {
       console.error("Error fetching table data:", error);
     } finally {
