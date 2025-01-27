@@ -14,3 +14,8 @@ export const changeStatus = async (id) => {
   const { data } = await axios.put(`/bcp/${id}`);
   return data;
 };
+
+export const addObservations = async (id, observations) => {
+  const { data } = await axios.put(`/bcp/${id}/observations`, { observations });
+  return data;
+};

@@ -50,8 +50,11 @@
             <div class="px-6 my-6">
                 <div class="p-4 bg-gray-800 rounded-lg shadow-md">
                     <img :src="rocket" class="w-20 h-20 mx-auto" />
-                    <p class="block mt-6 text-sm text-center text-gray-500">
-                        Equipo de Prevención de Fraude - {{ year }}
+                    <p class="block mt-6 text-xs text-center text-gray-500">
+                        Prevención de Fraude
+                    </p>
+                    <p class="block mt-2 text-xs text-center text-gray-500">
+                        &copy; {{ year }}
                     </p>
                 </div>
             </div>

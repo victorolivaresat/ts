@@ -1,4 +1,5 @@
-import { reactive } from "vue";
+import { format, subDays } from 'date-fns';;
+import { reactive } from "vue"
 
 export function useTable(fetchDataFn, initialColumns = []) {
   const tableConfig = reactive({
@@ -8,6 +9,10 @@ export function useTable(fetchDataFn, initialColumns = []) {
     totalItems: 0,
     currentPage: 1,
     itemsPerPage: 10,
+    sortable: {
+      order: "asc",
+      column: "id",
+    },
     messages: {
       pagingInfo: "Mostrando {0}-{1} of {2} resultados",
       pageSizeChangeLabel: " Páginas por:",
@@ -16,31 +21,39 @@ export function useTable(fetchDataFn, initialColumns = []) {
     },
   });
 
-  const fetchTableData = async (
-    page = 1,
-    itemsPerPage = 10,
-    sortField = "id",
-    sortOrder = "asc"
-  ) => {
+  const fetchTableData = async (params = {}) => {
     tableConfig.isLoading = true;
+  
+    // Fechas por defecto
+    const today = new Date();
+    const sevenDaysAgo = subDays(today, 7);
+    //const yesterday = subDays(today, 1);
+    
+    const startDate = params.startDate || format(sevenDaysAgo, "yyyy-MM-dd");
+    const endDate = params.endDate || format(today, "yyyy-MM-dd");
+
     try {
       const response = await fetchDataFn({
-        page,
-        limit: itemsPerPage,
-        sortBy: sortField,
-        sortOrder,
+        page: params.page || tableConfig.currentPage,
+        limit: params.limit || tableConfig.itemsPerPage,
+        sort: params.sort || tableConfig.sortable.column,
+        order: params.order || tableConfig.sortable.order,
+        startDate,
+        endDate,
+        search: params.search,
       });
-
+  
       tableConfig.rows = response.data;
       tableConfig.totalItems = response.totalItems;
-
-      console.log("Table data fetched:", response);
+  
+      console.log("Datos de tabla obtenidos:", { startDate, endDate, response });
     } catch (error) {
-      console.error("Error fetching table data:", error);
+      console.error("Error al obtener datos de tabla:", error);
     } finally {
       tableConfig.isLoading = false;
     }
   };
+  
 
   return { tableConfig, fetchTableData };
 }

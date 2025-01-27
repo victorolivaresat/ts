@@ -4,41 +4,48 @@ const getPaginatedData = async (model, query, searchFields, options = {}) => {
   const {
     page = 1,
     limit = 10,
-    sortBy = "created_at",
-    sortOrder = "ASC",
+    sort = "created_at",
+    order = "ASC",
     search = "",
   } = query;
 
-  const { attributes = null } = options;
+  const { attributes = null, where = {} } = options;
 
-  // Pagination logic
-  const offset = (parseInt(page) - 1) * parseInt(limit);
+  // Lógica de paginación - Validar valores de paginación
+  const pageNumber = Math.max(1, parseInt(page));
+  const limitNumber = Math.max(1, parseInt(limit));
+  const offset = (pageNumber - 1) * limitNumber;
 
-  // Validate sortOrder to prevent invalid values
+  // Validar sortOrder para evitar valores inválidos
+  // Validar valores de orden
   const validSortOrder = ["ASC", "DESC"];
-  const orderDirection = validSortOrder.includes(sortOrder.toUpperCase())
-    ? sortOrder.toUpperCase()
+  const orderDirection = validSortOrder.includes(order.toUpperCase())
+    ? order.toUpperCase()
     : "ASC";
 
-  // Build the where clause for search
-  const whereClause = search
-    ? {
-        [Op.or]: searchFields.map((field) => ({
-          [field]: { [Op.like]: `%${search}%` },
-        })),
-      }
-    : {};
 
-  // Query the model
+  // Construir el whereClause para búsqueda
+  const whereClause = {
+    ...where,
+    ...(search
+      ? {
+          [Op.or]: searchFields.map((field) => ({
+            [field]: { [Op.like]: `%${search}%` },
+          })),
+        }
+      : {}),
+  };
+
+  // Consultar el modelo
   const result = await model.findAndCountAll({
     where: whereClause,
     attributes,
-    limit: parseInt(limit),
-    offset: parseInt(offset),
-    order: [[sortBy, orderDirection]],
+    limit: limitNumber,
+    offset,
+    order: [[sort, orderDirection]],
   });
 
-  // Return paginated response
+  // Retornar la respuesta paginada
   return {
     totalItems: result.count,
     totalPages: Math.ceil(result.count / limit),
@@ -50,3 +57,4 @@ const getPaginatedData = async (model, query, searchFields, options = {}) => {
 module.exports = {
   getPaginatedData,
 };
+

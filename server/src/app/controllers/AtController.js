@@ -1,13 +1,13 @@
-const Ibk = require("../models/Ibk");
+const At = require("../models/At");
 const { Op } = require("sequelize");
 const { getPaginatedData } = require("../utils/queryUtils");
 
-const getIbk = async (req, res) => {
+const getAt = async (req, res) => {
   const { id } = req.params;
   try {
-    const Ibk = await Ibk.findByPk(id);
-    if (Ibk) {
-      res.json(Ibk);
+    const At = await At.findByPk(id);
+    if (At) {
+      res.json(At);
     } else {
       res.status(404).json({ message: "Notification not found" });
     }
@@ -16,9 +16,9 @@ const getIbk = async (req, res) => {
   }
 };
 
-const getIbks = async (req, res) => {
+const getAts = async (req, res) => {
   try {
-    const searchFields = ["beneficiary"];
+    const searchFields = ["first_name", "last_name"];
     const { startDate, endDate } = req.query;
 
     const where = {};
@@ -32,10 +32,10 @@ const getIbks = async (req, res) => {
     }
 
     if (startDate || endDate) {
-      where.created_at = dateFilter;
+      where.payment_date = dateFilter;
     }
 
-    const result = await getPaginatedData(Ibk, req.query, searchFields, {
+    const result = await getPaginatedData(At, req.query, searchFields, {
       attributes: { exclude: ["password"] },
       where,
     });
@@ -49,11 +49,11 @@ const getIbks = async (req, res) => {
 const changeStatus = async (req, res) => {
   const { id } = req.params;
   try {
-    const ibk = await ibk.findByPk(id);
-    if (ibk) {
-      ibk.status = !ibk.status;
-      await Ibk.save();
-      res.json(ibk);
+    const at = await at.findByPk(id);
+    if (at) {
+      at.status = !at.status;
+      await at.save();
+      res.json(at);
     } else {
       res.status(404).json({ message: "Notification not found" });
     }
@@ -65,11 +65,11 @@ const changeStatus = async (req, res) => {
 const addObservations = async (req, res) => {
   const { id } = req.params;
   try {
-    const ibk = await ibk.findByPk(id);
-    if (ibk) {
-      ibk.observations = req.body.observations;
-      await ibk.save();
-      res.json(ibk);
+    const at = await at.findByPk(id);
+    if (at) {
+      at.observations = req.body.observations;
+      await at.save();
+      res.json(at);
     } else {
       res.status(404).json({ message: "Notification not found" });
     }
@@ -79,8 +79,8 @@ const addObservations = async (req, res) => {
 };
 
 module.exports = {
-  getIbk,
-  getIbks,
+  getAt,
+  getAts,
   changeStatus,
   addObservations,
 };

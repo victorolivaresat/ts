@@ -39,12 +39,10 @@ User.init(
     created_at: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: Sequelize.fn('GETDATE') 
     },
     updated_at: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: Sequelize.fn('GETDATE') 
     },
   },
   {

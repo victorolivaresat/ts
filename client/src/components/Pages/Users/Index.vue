@@ -126,11 +126,15 @@ const filterRows = computed(() => {
 
 // Función para manejar la paginación
 const handleSearch = async (offset, limit, sort, order) => {
-  const page = offset / limit + 1;
-  tableConfig.currentPage = page;
-  tableConfig.itemsPerPage = limit;
+  const params = {
+    page: offset / limit + 1,
+    limit,
+    sortBy: sort,
+    sortOrder: order,
+    search: searchTerm.value,
+  };
 
-  await fetchTableData(page, limit, sort, order);
+  await fetchTableData(params);
 };
 
 // Actualización dinámica al buscar
@@ -175,6 +179,7 @@ const handleSubmit = async () => {
   }
 };
 
+// Change status
 const handleChangeStatus = async (id, newStatus) => {
   try {
     await changeUserStatus(id, newStatus);
