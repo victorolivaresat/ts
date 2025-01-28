@@ -1,3 +1,4 @@
+const { getPaginatedData } = require("../utils/queryUtils");
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 
@@ -25,7 +26,10 @@ const updateUser = async (req, res) => {
     if (user) {
       user.name = name;
       user.email = email;
-      user.password = password;
+      if (password) {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        user.password = hashedPassword;
+      }
       await user.save();
       res.json(user);
     } else {
@@ -54,13 +58,17 @@ const getUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
   try {
-    const users = await User.findAll({
-      attributes: { exclude: ["password"] },
-    });
-    console.log(users);
-    res.json(users);
+    const searchFields = ["first_name", "last_name", "email"];
+    const result = await getPaginatedData(
+      User,
+      req.query,
+      searchFields,
+      { attributes: { exclude: ["password"] } }
+    );
+
+    res.json(result);
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({ message: error.message });
   }
 };
 

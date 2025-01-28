@@ -1,5 +1,5 @@
 const sequelize = require("../../config/database").sequelize;
-const { Model, DataTypes } = require("sequelize");
+const { Sequelize, Model, DataTypes } = require("sequelize");
 
 class User extends Model {}
 
@@ -29,6 +29,8 @@ User.init(
     status: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
+      defaultValue: true,
+      dataType: 'bit',
     },
     photo_path: {
       type: DataTypes.STRING,
@@ -36,19 +38,20 @@ User.init(
     },
     created_at: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: true,
     },
     updated_at: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: true,
     },
   },
   {
     sequelize,
     timestamps: true,
+    modelName: "User",
+    tableName: "users",
     createdAt: "created_at",
     updatedAt: "updated_at",
-    deletedAt: "deleted_at",
   }
 );
 

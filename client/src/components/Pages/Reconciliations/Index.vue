@@ -1,6 +1,3 @@
 <template>
-    <layout>
-      <h1>Reconciliations</h1>
-    </layout>
-  </template>
-  
+  <h1>Reconciliations</h1>
+</template>

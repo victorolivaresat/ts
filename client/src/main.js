@@ -1,20 +1,20 @@
-import { createApp } from 'vue';
-import App from './App.vue';
-import router from './routes/router'; // Asegúrate de que este es el archivo correcto para tus rutas
+import DefaultLayout from "./components/Layout/DefaultLayout.vue";
+import EmptyLayout from "./components/Layout/EmptyLayout.vue";
+import VueApexCharts from "vue3-apexcharts";
+import router from "./routes/router";
+import { createApp } from "vue";
+import App from "./App.vue";
 
-// Importa los componentes de diseño
-import DefaultLayout from './components/Layout/DefaultLayout.vue';
-import EmptyLayout from './components/Layout/EmptyLayout.vue';
-
-// Crea la instancia de la aplicación
+// Create the app
 const app = createApp(App);
 
-// Registra los componentes de diseño globalmente
-app.component('DefaultLayout', DefaultLayout);
-app.component('EmptyLayout', EmptyLayout);
+// Register the layout components
+app.component("DefaultLayout", DefaultLayout);
+app.component("EmptyLayout", EmptyLayout);
 
-// Usa el enrutador
+// Register the plugins
 app.use(router);
+app.use(VueApexCharts);
 
-// Monta la aplicación en el elemento HTML con id 'app'
-app.mount('#app');
+// Mount the app
+app.mount("#app");

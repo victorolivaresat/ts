@@ -1,6 +1,3 @@
 <template>
-  <layout>
-    <h1>Transactions</h1>
-  </layout>
+  <h1>Transactions</h1>
 </template>
-
