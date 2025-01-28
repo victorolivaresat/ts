@@ -103,6 +103,8 @@ const { tableConfig, fetchTableData } = useTable(getAllUsers, initialColumns);
 // Modal
 const isModalVisible = ref(false);
 const modalMode = ref('create');
+const startDate = ref("");
+const endDate = ref("");
 
 // Form data
 const currentUserId = ref(null);
@@ -126,22 +128,57 @@ const filterRows = computed(() => {
 
 // Función para manejar la paginación
 const handleSearch = async (offset, limit, sort, order) => {
-  const params = {
-    page: offset / limit + 1,
-    limit,
-    sortBy: sort,
-    sortOrder: order,
-    search: searchTerm.value,
-  };
+  const page = offset / limit + 1;
 
-  await fetchTableData(params);
+  // Actualiza el estado en tableConfig
+  tableConfig.currentPage = page;
+  tableConfig.itemsPerPage = limit;
+  tableConfig.sortable.order = order || tableConfig.sortable.order;
+  tableConfig.sortable.column = sort || tableConfig.sortable.column;
+
+  console.log('Parametros enviados en búsqueda:', {
+    page,
+    limit,
+    sort: tableConfig.sortable.column,
+    order: tableConfig.sortable.order,
+    startDate: startDate.value || undefined,
+    endDate: endDate.value || undefined,
+  });
+
+  await fetchTableData({
+    page,
+    limit,
+    sort: tableConfig.sortable.column,
+    order: tableConfig.sortable.order,
+    startDate: startDate.value || undefined,
+    endDate: endDate.value || undefined,
+  });
 };
 
 // Actualización dinámica al buscar
 const fetchFilteredData = async () => {
+
+  if (startDate.value && endDate.value && new Date(startDate.value) > new Date(endDate.value)) {
+    console.error("La fecha de inicio no puede ser mayor que la fecha de fin.");
+    return;
+  }
+
+  const params = {
+    page: 1,
+    limit: tableConfig.itemsPerPage,
+    sort: tableConfig.sortable.column,
+    order: tableConfig.sortable.order,
+    search: searchTerm.value,
+    startDate: startDate.value || undefined,
+    endDate: endDate.value || undefined,
+  };
+
   tableConfig.currentPage = 1;
-  await fetchTableData(1, tableConfig.itemsPerPage);
+  console.log("Parámetros enviados:", params);
+
+  await fetchTableData(params);
 };
+
 
 // Modal functions
 const openModal = (mode, id = null) => {

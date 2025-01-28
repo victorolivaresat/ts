@@ -24,10 +24,18 @@
   </div>
 
   <!-- Tabla de datos -->
-  <TableLite :is-slot-mode="true" :isLoading="tableConfig.isLoading" :title="'BCP Notifications'"
-    :columns="tableConfig.columns" :rows="filterRows" :pageSize="tableConfig.itemsPerPage"
-    :total="tableConfig.totalItems" :page="tableConfig.currentPage" :messages="tableConfig.messages"
-    @do-search="handleSearch">
+  <TableLite 
+    :is-slot-mode="true" 
+    :isLoading="tableConfig.isLoading" 
+    :title="'BCP Notifications'"
+    :columns="tableConfig.columns" 
+    :rows="filterRows" 
+    :pageSize="tableConfig.itemsPerPage"
+    :total="tableConfig.totalItems" 
+    :page="tableConfig.currentPage" 
+    :messages="tableConfig.messages"
+    @do-search="handleSearch"
+  >
     <!-- Slot para estado -->
     <template v-slot:status="data">
       <Switch :value="data.value.status === true" :label="data.value.status ? 'Validated' : 'Not validated'"
