@@ -2,7 +2,7 @@
     <!-- Información de Resumen -->
     <div class="mt-4">
         <div class="flex flex-wrap -mx-6">
-            <div v-for="(item, index) in summaryData" :key="index" class="w-full px-6 sm:w-1/2 xl:w-1/3">
+            <div v-for="(item, index) in summaryData" :key="index" class="w-full px-6 my-1 sm:w-1/2 xl:w-1/3">
                 <div class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm">
                     <div :class="item.iconBg">
                         <component :is="item.icon" class="text-white text-2xl" />

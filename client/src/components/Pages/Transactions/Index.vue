@@ -20,21 +20,42 @@
 
   <!-- Componentes según la pestaña seleccionada -->
   <div v-if="selectedTab === 'BCP'">
-    <Bcp />
+    <Suspense>
+      <template #default>
+        <Bcp />
+      </template>
+      <template #fallback>
+        <div>Loading...</div>
+      </template>
+    </Suspense>
   </div>
   <div v-if="selectedTab === 'Interbank'">
-    <Ibk />
+    <Suspense>
+      <template #default>
+        <Ibk />
+      </template>
+      <template #fallback>
+        <div>Loading...</div>
+      </template>
+    </Suspense>
   </div>
   <div v-if="selectedTab === 'ApuestaTotal'">
-    <At />
+    <Suspense>
+      <template #default>
+        <At />
+      </template>
+      <template #fallback>
+        <div>Loading...</div>
+      </template>
+    </Suspense>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import Bcp from './Bcp.vue';
-import Ibk from './Ibk.vue';
-import At from './At.vue';
+import { ref, defineAsyncComponent } from 'vue';
+const Bcp = defineAsyncComponent(() => import('./Bcp.vue'));
+const Ibk = defineAsyncComponent(() => import('./Ibk.vue'));
+const At = defineAsyncComponent(() => import('./At.vue'));
 
 const selectedTab = ref('BCP');
 
@@ -42,7 +63,3 @@ const selectTab = (tab) => {
   selectedTab.value = tab;
 };
 </script>
-
-<style scoped>
-
-</style>

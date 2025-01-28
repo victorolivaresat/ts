@@ -1,13 +1,12 @@
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
-export function formatDate(date, formatString = 'yyyy-MM-dd') {
-    return format(new Date(date), formatString);
-}
+const formatDate = (date, formatString = "yyyy-MM-dd") =>
+  format(new Date(date), formatString);
 
-export function formatDateTime(date, formatString = 'yyyy-MM-dd HH:mm:ss') {
-    return format(new Date(date), formatString);
-}
+const formatDateTime = (date, formatString = "yyyy-MM-dd HH:mm:ss") =>
+  format(new Date(date), formatString);
 
-export function formatTime(date, formatString = 'HH:mm:ss') {
-    return format(new Date(date), formatString);
-}
+const formatTime = (date, formatString = "HH:mm:ss") =>
+  format(new Date(date), formatString);
+
+export { formatDate, formatDateTime, formatTime };

@@ -65,7 +65,7 @@ const changeStatus = async (req, res) => {
 const addObservations = async (req, res) => {
   const { id } = req.params;
   try {
-    const at = await at.findByPk(id);
+    const at = await At.findByPk(id);
     if (at) {
       at.observations = req.body.observations;
       await at.save();

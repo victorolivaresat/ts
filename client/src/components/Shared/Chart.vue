@@ -13,11 +13,6 @@ const props = defineProps({
         type: Array,
         required: true,
     },
-    categories: {
-        type: Array,
-        required: true,
-        default: () => [],
-    },
     chartOptions: {
         type: Object,
         required: false,

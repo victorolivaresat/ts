@@ -65,7 +65,7 @@ const changeStatus = async (req, res) => {
 const addObservations = async (req, res) => {
   const { id } = req.params;
   try {
-    const ibk = await ibk.findByPk(id);
+    const ibk = await Ibk.findByPk(id);
     if (ibk) {
       ibk.observations = req.body.observations;
       await ibk.save();

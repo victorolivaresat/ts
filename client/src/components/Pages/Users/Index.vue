@@ -106,7 +106,7 @@ const modalMode = ref('create');
 
 // Form data
 const currentUserId = ref(null);
-const searchTerm = ref(""); 
+const searchTerm = ref("");
 const formData = ref({
   first_name: '',
   last_name: '',
