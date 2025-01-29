@@ -85,10 +85,10 @@ import { format, subDays } from 'date-fns';
 const initialColumns = [
     { label: "ID", field: "id", sortable: true, width: "5%" },
     { label: "#Operation", field: "operation_number", sortable: true, width: "5%" },
-    { label: "Name", field: "first_name", sortable: true, width: "15%", columnClasses: ["text-red-500"] },
+    { label: "Name", field: "first_name", sortable: true, width: "20%", columnClasses: ["text-red-500"] },
     { label: "Account Destination", field: "account_number", sortable: true, width: "10%" },
     { label: "Date", field: "payment_date", sortable: true, width: "10%", display: (row) => formatDateTime(row.payment_date) },
-    { label: "Payment Bank", field: "payment_bank", sortable: true, width: "15%" },
+    { label: "Payment Bank", field: "payment_bank", sortable: true, width: "10%" },
     { label: "Amount", field: "amount", sortable: true, width: "5%" },
     { label: "Validado", field: "validated", width: "15%", columnClasses: ["text-center"] },
     { label: "Actions", field: "actions", width: "10%", columnClasses: ["text-center"] },

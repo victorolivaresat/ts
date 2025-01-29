@@ -9,7 +9,7 @@ const getPaginatedData = async (model, query, searchFields, options = {}) => {
     search = "",
   } = query;
 
-  const { attributes = null, where = {} } = options;
+  const { attributes = null, where = {}, include = [] } = options; 
 
   // Lógica de paginación - Validar valores de paginación
   const pageNumber = Math.max(1, parseInt(page));
@@ -17,12 +17,10 @@ const getPaginatedData = async (model, query, searchFields, options = {}) => {
   const offset = (pageNumber - 1) * limitNumber;
 
   // Validar sortOrder para evitar valores inválidos
-  // Validar valores de orden
   const validSortOrder = ["ASC", "DESC"];
   const orderDirection = validSortOrder.includes(order.toUpperCase())
     ? order.toUpperCase()
     : "ASC";
-
 
   // Construir el whereClause para búsqueda
   const whereClause = {
@@ -43,6 +41,7 @@ const getPaginatedData = async (model, query, searchFields, options = {}) => {
     limit: limitNumber,
     offset,
     order: [[sort, orderDirection]],
+    include,
   });
 
   // Retornar la respuesta paginada
@@ -57,4 +56,3 @@ const getPaginatedData = async (model, query, searchFields, options = {}) => {
 module.exports = {
   getPaginatedData,
 };
-

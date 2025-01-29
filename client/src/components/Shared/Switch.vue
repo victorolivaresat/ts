@@ -2,7 +2,7 @@
     <label :class="['inline-flex items-center cursor-pointer', labelClass]">
         <input type="checkbox" :checked="value" class="sr-only peer" @change="handleChange">
         <div :class="switchClass"></div>
-        <span :class="['ms-3 text-sm font-medium', textClass]">{{ label }}</span>
+        <span :class="['ms-3 text-xs font-medium', textClass]">{{ label }}</span>
     </label>
 </template>
 
@@ -25,7 +25,7 @@ const props = defineProps({
     },
     textClass: {
         type: String,
-        default: 'text-gray-900'
+        default: 'text-gray-600'
     }
 });
 
@@ -39,6 +39,9 @@ const switchClass = computed(() => `
     after:bg-white after:border-gray-300 after:border after:rounded-full
     after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full
   `);
+
+const textClass = computed(() => props.value ? 'text-green-500' : 'text-gray-400');
+
 
 const handleChange = (event) => {
     emits('update:value', event.target.checked);

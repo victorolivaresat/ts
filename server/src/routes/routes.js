@@ -7,6 +7,7 @@ const userRoute = require('./userRoute');
 const authRoute = require('./authRoute');
 const uploadRoute = require('./uploadRoute');
 const dashboardRoute = require('./dashboardRoute');
+const reconciliationRoute = require('./reconciliationRoute');
 
 routes.use(atRoute);
 routes.use(bcpRoute);
@@ -15,5 +16,6 @@ routes.use(userRoute);
 routes.use(authRoute);
 routes.use(uploadRoute);
 routes.use(dashboardRoute);
+routes.use(reconciliationRoute);
 
 module.exports = routes;
