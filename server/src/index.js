@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const { connect } = require('./config/database');
 
 const app = express();
+const port = config.APP_PORT
 
 app.use(express.json());
 app.use(cookieParser());
@@ -22,7 +23,7 @@ app.use(
 app.use(routes);
 
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
     connect();
 });
