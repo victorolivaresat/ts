@@ -3,15 +3,16 @@
     <div class="mt-4">
         <div class="flex flex-wrap -mx-6">
             <div v-for="(item, index) in summaryData" :key="index" class="w-full px-6 my-1 sm:w-1/2 xl:w-1/3">
-                <div class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm">
-                    <div :class="item.iconBg">
-                        <component :is="item.icon" class="text-white text-2xl" />
+                <div class="flex items-center px-5 py-6 bg-gray-50 rounded-md shadow-sm">
+                    <div class="p-4 rounded-full shadow-lg bg-white">
+                        <img :src="item.img" alt="Logo" class=" w-14" />
                     </div>
+
+
                     <div class="mx-5">
                         <h4 class="text-2xl font-semibold text-gray-700">
                             S/ {{ formatWithThousandSeparator(item.amount) }}
                         </h4>
-                        <div class="text-gray-500">{{ item.label }}</div>
                     </div>
                 </div>
             </div>
@@ -53,6 +54,10 @@ import { formatWithThousandSeparator } from '../../utils/numberFormatter';
 import Chart from '../Shared/Chart.vue';
 import merge from 'lodash/merge';
 
+import bcpLogo from '../../assets/logos/bcp_logo.svg';
+import IbkLogo from '../../assets/logos/ibk_logo.png';
+import AtLogo from '../../assets/logos/at_logo.svg';
+
 
 // Variables Reactivas
 const summaryData = ref([]);
@@ -71,22 +76,16 @@ const fetchSummaryData = async () => {
         const monthlyData = await getMonthlyAmountSums();
         summaryData.value = [
             {
-                label: 'Interbank',
-                amount: monthlyData?.ibkTotalAmount || 0,
-                icon: BxCreditCard,
-                iconBg: 'p-4 bg-green-600 rounded-full',
-            },
-            {
-                label: 'BCP',
                 amount: monthlyData?.bcpTotalAmount || 0,
-                icon: BxMoney,
-                iconBg: 'p-4 bg-orange-600 rounded-full',
+                img: bcpLogo,
             },
             {
-                label: 'ApuestaTotal',
+                amount: monthlyData?.ibkTotalAmount || 0,
+                img: IbkLogo,
+            },
+            {
                 amount: monthlyData?.atTotalAmount || 0,
-                icon: BxMoneyWithdraw,
-                iconBg: 'p-4 bg-red-600 rounded-full',
+                img: AtLogo,
             },
         ];
     } catch (err) {
@@ -119,9 +118,9 @@ const fetchChartData = async () => {
                     },
                 },
                 markers: {
-                    colors : ['#002a8d'],
+                    colors: ['#002a8d'],
                 },
-                colors : ['#002a8d'],
+                colors: ['#002a8d'],
             });
         }
 
@@ -142,9 +141,9 @@ const fetchChartData = async () => {
                     },
                 },
                 markers: {
-                    colors : ['#0039a6'],
+                    colors: ['#0039a6'],
                 },
-                colors : ['#0039a6'],
+                colors: ['#0039a6'],
             };
         }
     } catch (err) {

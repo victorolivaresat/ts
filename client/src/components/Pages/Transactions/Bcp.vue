@@ -24,10 +24,18 @@
   </div>
 
   <!-- Tabla de datos -->
-  <TableLite :is-slot-mode="true" :isLoading="tableConfig.isLoading" :title="'BCP Notifications'"
-    :columns="tableConfig.columns" :rows="filterRows" :pageSize="tableConfig.itemsPerPage"
-    :total="tableConfig.totalItems" :page="tableConfig.currentPage" :messages="tableConfig.messages"
-    @do-search="handleSearch">
+  <TableLite 
+    :is-slot-mode="true" 
+    :isLoading="tableConfig.isLoading" 
+    :title="'BCP Notifications'"
+    :columns="tableConfig.columns" 
+    :rows="filterRows" 
+    :pageSize="tableConfig.itemsPerPage"
+    :total="tableConfig.totalItems" 
+    :page="tableConfig.currentPage" 
+    :messages="tableConfig.messages"
+    @do-search="handleSearch"
+  >
     <!-- Slot para estado -->
     <template v-slot:status="data">
       <Switch :value="data.value.status === true" :label="data.value.status ? 'Validated' : 'Not validated'"
@@ -63,6 +71,7 @@
       </div>
     </form>
   </Modal>
+  
 </template>
 
 <script setup>
@@ -79,9 +88,8 @@ const initialColumns = [
   { label: "ID", field: "id", sortable: true, width: "5%" },
   { label: "#Operation", field: "operation_number", sortable: true, width: "10%" },
   { label: "Beneficiary", field: "beneficiary", sortable: true, width: "25%", columnClasses: ["text-orange-500"] },
-  { label: "Date", field: "date_time", sortable: true, width: "10%", display: (row) => formatDateTime(row.date_time) },
-  { label: "Account Charge", field: "account_charge", sortable: true, width: "10%" },
-  { label: "Account Destination", field: "account_destination", width: "10%", sortable: true },
+  { label: "Date", field: "date_time", sortable: true, width: "15%", display: (row) => formatDateTime(row.date_time) },
+  { label: "Account Destination", field: "account_destination", width: "15%", sortable: true },
   { label: "Amount", field: "amount", sortable: true, width: "5%" },
   { label: "Status", field: "status", width: "15%", columnClasses: ["text-center"] },
   { label: "Actions", field: "actions", width: "10%", columnClasses: ["text-center"] },

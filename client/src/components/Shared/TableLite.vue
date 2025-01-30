@@ -945,7 +945,7 @@ export default defineComponent({
 
 .tbl-table td,
 .tbl-table th {
-    padding: 0.75rem;
+    padding: 0.35rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
     vertical-align: middle;

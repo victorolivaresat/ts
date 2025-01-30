@@ -1,8 +1,12 @@
 {
-    "DB_USERNAME": "",
-    "DB_PASSWORD": "",
-    "DB_DATABASE": "",
-    "DB_HOST": "",
-    "DB_DIALECT": "",
-    "DB_PORT": 1433
-  }
+  "NODE_ENV": "",
+  "DB_USERNAME": "",
+  "DB_PASSWORD": "",
+  "DB_DATABASE": "",
+  "DB_HOST": "",
+  "DB_DIALECT": "",
+  "DB_PORT": 1433,
+  "JWT_EXPIRES_IN": "1d",
+  "JWT_SECRET": "",
+  "CORS_ORIGIN": [ "http://localhost:5173", "http://localhost:3000" ]
+}

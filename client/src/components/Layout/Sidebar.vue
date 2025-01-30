@@ -24,10 +24,10 @@
                     <span class="mx-4">Users</span>
                 </router-link>
 
-                <router-link class="flex items-center px-6 py-2 mt-2 duration-200 border-l-4"
+                <!-- <router-link class="flex items-center px-6 py-2 mt-2 duration-200 border-l-4"
                     :class="[$route.name === 'Roles' ? activeClass : inactiveClass]" to="/roles">
                     <span class="mx-4">Roles</span>
-                </router-link>
+                </router-link> -->
 
                 <router-link class="flex items-center px-6 py-2 mt-2 duration-200 border-l-4"
                     :class="[$route.name === 'DataLoad' ? activeClass : inactiveClass]" to="/data-load">

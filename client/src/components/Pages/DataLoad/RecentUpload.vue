@@ -22,11 +22,11 @@
             <div v-for="(transactionsByDate, date) in transactions" :key="date">
                 <div v-if="activeTab === date" class="p-4">
                     <h3 class="text-lg font-semibold mb-4">Detalles del {{ date }}</h3>
-                    <div class="flex flex-wrap gap-6">
+                    <div class="flex flex-wrap gap-4">
                         <div v-for="transaction in transactionsByDate" :key="transaction.id"
-                            class="p-3 rounded-lg shadow-lg w-52" :class="sourceClass(transaction.source)">
+                            class="p-3 rounded-lg shadow-lg w-48" :class="sourceClass(transaction.source)">
                             <p class="font-semibold">{{ transaction.operationDate }}</p>
-                            <p class="text-lg">Fuente: {{ transaction.source }}</p>
+                            <p class="text-lg font-bold">{{ transaction.source }}</p>
                             <p class="text-sm">Total: {{ formatWithThousandSeparator(transaction.totalAmount) }}</p>
                         </div>
                     </div>
@@ -50,9 +50,9 @@ const activeTab = ref("");
 const sourceClass = (source) => {
     
     if (source === "BCP") {
-        return "bg-orange-300 text-orange-900";
+        return "bg-orange-300 text-blue-950";
     } else if (source === "IBK") {
-        return "bg-green-300 text-green-900";
+        return "bg-green-300 text-blue-800";
     } else if (source === "AT") {
         return "bg-indigo-800 text-indigo-100";
     } else {

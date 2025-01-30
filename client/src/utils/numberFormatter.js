@@ -1,7 +1,8 @@
-const formatToDecimals = (value, decimals = 2) =>
+const formatToDecimals = (value, decimals = 2) => {
   value == null || isNaN(value)
     ? "0".padEnd(decimals + 2, "0")
     : Number(value).toFixed(decimals);
+};
 
 const formatWithThousandSeparator = (value, decimals = 2) => {
   if (value == null || isNaN(value)) {
@@ -17,7 +18,7 @@ const formatCurrency = (
   currencySymbol = "$",
   locale = "en-US",
   decimals = 2
-) =>
+) => {
   value == null || isNaN(value)
     ? `${currencySymbol}0`.padEnd(decimals + 3, "0")
     : new Intl.NumberFormat(locale, {
@@ -26,11 +27,13 @@ const formatCurrency = (
         minimumFractionDigits: decimals,
         maximumFractionDigits: decimals,
       }).format(value);
+};
 
-const formatPercentage = (value, decimals = 2) =>
+const formatPercentage = (value, decimals = 2) => {
   value == null || isNaN(value)
     ? "0".padEnd(decimals + 3, "0") + "%"
     : `${Number(value).toFixed(decimals)}%`;
+};
 
 export {
   formatToDecimals,

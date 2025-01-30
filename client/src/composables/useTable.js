@@ -29,7 +29,9 @@ export function useTable(fetchDataFn, initialColumns = []) {
     const sevenDaysAgo = subDays(today, 7);
     //const yesterday = subDays(today, 1);
     
+  // Fechas por defecto
     const startDate = params.startDate || format(sevenDaysAgo, "yyyy-MM-dd");
+    //const startDate = params.startDate || format(yesterday, "yyyy-MM-dd");
     const endDate = params.endDate || format(today, "yyyy-MM-dd");
 
     try {
