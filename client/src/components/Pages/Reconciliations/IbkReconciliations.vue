@@ -79,10 +79,10 @@
                         <img :src="atLogo" alt="AT Logo" class="w-32" />
                         <h3 class="font-bold text-xl text-indigo-800 uppercase">{{ `${currentReconciliation.at.last_name}
                             ${currentReconciliation.at.first_name}` }}</h3>
-                        <p><strong>Amount:</strong> {{ currentReconciliation.at.amount }}</p>
-                        <p><strong>Payment Date:</strong> {{ formatDateTime(currentReconciliation.at.payment_date) }}
+                        <p class="font-bold text-lg">Monto: {{ currentReconciliation.at.amount }}</p>
+                        <p><strong>Fecha de Pago:</strong> {{ formatDateTime(currentReconciliation.at.payment_date) }}
                         </p>
-                        <p><strong>Account Number:</strong> {{ currentReconciliation.at.account_number }}</p>
+                        <p><strong>Número de cuenta:</strong> {{ currentReconciliation.at.account_number }}</p>
                     </div>
                 </div>
             </div>
