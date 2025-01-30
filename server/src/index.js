@@ -6,7 +6,9 @@ const cookieParser = require('cookie-parser');
 const { connect } = require('./config/database');
 
 const app = express();
-const port = config.APP_PORT
+
+// Usa process.env.PORT en IIS (producción) y config.json en desarrollo.
+const port = process.env.PORT || config.APP_PORT
 
 app.use(express.json());
 app.use(cookieParser());
