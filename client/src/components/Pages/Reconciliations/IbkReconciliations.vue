@@ -67,7 +67,7 @@
                     <div class="space-y-2">
                         <img :src="ibkLogo" alt="IBK Logo" class="w-32" />
                         <h3 class="font-bold text-xl text-indigo-800">{{ currentReconciliation.ibk.beneficiary }}</h3>
-                        <p class="font-bolld text-lg text-slate-800">Monto: {{ currentReconciliation.ibk.amount }}</p>
+                        <p class="font-bold text-lg text-slate-800">Monto: {{ currentReconciliation.ibk.amount }}</p>
                         <p><strong>Date Time:</strong> {{ formatDateTime(currentReconciliation.ibk.date_time) }}</p>
                         <p><strong>Account Destination:</strong> {{ currentReconciliation.ibk.account_destination }}</p>
                     </div>
@@ -77,12 +77,12 @@
                 <div class="card p-4 bg-slate-100 shadow-md rounded-lg">
                     <div class="space-y-2">
                         <img :src="atLogo" alt="AT Logo" class="w-32" />
-                        <h3 class="font-bold text-xl text-indigo-800 uppercase">{{ `${currentReconciliation.at.last_name}
-                            ${currentReconciliation.at.first_name}` }}</h3>
-                        <p><strong>Amount:</strong> {{ currentReconciliation.at.amount }}</p>
-                        <p><strong>Payment Date:</strong> {{ formatDateTime(currentReconciliation.at.payment_date) }}
-                        </p>
-                        <p><strong>Account Number:</strong> {{ currentReconciliation.at.account_number }}</p>
+                        <h3 class="font-bold text-xl text-indigo-800 uppercase">
+                            {{ `${currentReconciliation.at.last_name} ${currentReconciliation.at.first_name}` }}
+                        </h3>
+                        <p class="font-bold text-lg text-slate-800">Monto: {{ currentReconciliation.at.amount }}</p>
+                        <p><strong>Fecha de Pago:</strong> {{ formatDateTime(currentReconciliation.at.payment_date) }}</p>
+                        <p><strong>Número de cuenta:</strong> {{ currentReconciliation.at.account_number }}</p>
                     </div>
                 </div>
             </div>
