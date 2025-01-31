@@ -44,19 +44,28 @@
             <p>{{ error }}</p>
         </div>
     </div>
+
+    <!-- Examples -->
+     <div class="mt-6 bg-white p-4 rounded-lg shadow-md">
+        <Example />
+     </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-import { BxMoney, BxCreditCard, BxMoneyWithdraw } from '@kalimahapps/vue-icons';
+
 import { getMonthlyAmountSums, getBcpDailyAmountsForChart, getIbkDailyAmountsForChart } from '../../api/dashboardApi';
 import { formatWithThousandSeparator } from '../../utils/numberFormatter';
 import Chart from '../Shared/Chart.vue';
+import { onMounted, ref } from 'vue';
 import merge from 'lodash/merge';
 
+// Logos
 import bcpLogo from '../../assets/logos/bcp_logo.svg';
 import IbkLogo from '../../assets/logos/ibk_logo.png';
 import AtLogo from '../../assets/logos/at_logo.svg';
+
+// Example Data
+import Example from './Example.vue';
 
 
 // Variables Reactivas
